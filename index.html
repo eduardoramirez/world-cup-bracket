@@ -14,7 +14,7 @@
     --border:#23392E; --text:#ECF4EF; --muted:#7E9C8D;
     --gold:#F2C14E; --gold-deep:#C9982F; --green:#2EA869;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;background:var(--bg);color:var(--text);
     font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
   .wrap{padding:14px 12px 40px;max-width:100%;}
@@ -88,9 +88,9 @@
   .team .flag{font-size:14px;flex:0 0 auto;width:18px;text-align:center;}
   .team .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
   .team.empty{color:#46604f;cursor:default;}
-  .team:not(.empty):hover{background:rgba(242,193,78,.08);}
-  .team.win{background:linear-gradient(90deg,rgba(242,193,78,.18),rgba(242,193,78,.05));
-    color:#fff;font-weight:700;box-shadow:inset 3px 0 0 var(--gold);}
+  @media (hover:hover){ .team:not(.empty):hover{background:rgba(242,193,78,.08);} }
+  .team.win{background-color:#33301a;color:#fff;font-weight:700;
+    border-left:3px solid var(--gold);padding-left:6px;}
   .team.lose{color:#5b7466;text-decoration:line-through;text-decoration-color:#3a4f44;}
 
   /* champion */
@@ -102,10 +102,8 @@
   .champ .cflag{font-size:40px;line-height:1;}
   .champ .cname{font-family:'Anton',sans-serif;font-size:18px;margin-top:7px;
     text-transform:uppercase;letter-spacing:.02em;min-height:20px;}
-  .champ.set{border-color:var(--gold-deep);
-    background:linear-gradient(180deg,rgba(242,193,78,.14),var(--surface2));
-    box-shadow:0 0 0 1px rgba(242,193,78,.25),0 10px 40px -12px rgba(242,193,78,.6);
-    animation:pop .4s ease;}
+  .champ.set{border-color:var(--gold-deep);background-color:#2a2614;
+    box-shadow:0 0 0 1px rgba(242,193,78,.25);animation:pop .4s ease;}
   .champ.set .cname{color:var(--gold);}
   .trophy{font-size:22px;margin-bottom:2px;}
   @keyframes pop{0%{transform:scale(.9);opacity:.4}60%{transform:scale(1.04)}100%{transform:scale(1)}}
@@ -388,6 +386,8 @@ document.getElementById('editTitleBtn').addEventListener('click',()=>{
 /* ---- export ---- */
 async function capture(){
   await document.fonts.ready;
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  try{ const s=window.getSelection&&window.getSelection(); if(s) s.removeAllRanges(); }catch(e){}
   const node=document.getElementById('poster');
   const input=document.getElementById('titleInput');
   const row=document.getElementById('titleRow');
